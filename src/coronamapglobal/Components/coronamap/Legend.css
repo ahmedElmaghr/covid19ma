@@ -1,0 +1,9 @@
+.legend {
+  position: absolute;
+}
+.legend-icon {
+  font-size: 0.3rem;
+}
+.legend-text {
+  font-size: 0.5rem;
+}
