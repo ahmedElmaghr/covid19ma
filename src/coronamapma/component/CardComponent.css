@@ -1,0 +1,35 @@
+.danger, .info, .warning{
+    max-width: 350px;
+    overflow: hidden;
+    font-size: .875rem;
+    background-color: rgba(255,255,255,.85);
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.1);
+    backdrop-filter: blur(10px);
+    border-radius: .25rem;
+}
+.danger-h3,.warning-h3,.info-h3{
+    display: flex;
+    align-items: center;
+    padding: .25rem .75rem;
+    background-color: rgba(255,255,255,.85);
+    background-clip: padding-box;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    font-size: 1rem;
+}
+.danger-h3{
+    color: rgb(214, 52, 52);
+}
+.warning-h3, .warning-p{
+    color: rgb(194, 149, 65);
+}
+.info-h3, .info-p{
+    color: rgb(19, 17, 17);
+}
+.danger-p,.warning-p,.info-p{
+    font-size: .875rem;
+}
+.danger-p{
+    color: rgb(131, 22, 22);
+}

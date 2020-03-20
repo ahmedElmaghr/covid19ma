@@ -1,8 +1,7 @@
 import * as d3 from "d3";
-import React, { PureComponent } from "react";
+import { PureComponent } from "react";
 import { merge } from "topojson-client";
 import "./CoronaMapViewCss.css";
-import Legend from "./Legend.js";
 
 export default class CoronaMapView extends PureComponent {
   //Constantes
@@ -26,10 +25,8 @@ export default class CoronaMapView extends PureComponent {
       //Draw svg Wrapper
       var svg = this.drawSvgWrapper();
       var gGlobal = svg.append("g").attr("id", "gWrapper");
-      //Draw Path from worldData
-      var g = this.drawMap(gGlobal, this.props.worldData);
-      //Merge morrocan sahara
-      this.mergeMorrocanSahara(g);
+      //Merge moroccan sahara and draw morroca
+      this.drawMorocco(gGlobal);
       //
       //add zoom
       var wrapper = d3.select("#content");
@@ -45,7 +42,7 @@ export default class CoronaMapView extends PureComponent {
 
     return true;
   }
-  mergeMorrocanSahara = g => {
+  drawMorocco = g => {
     //merge Morocco
     var jsonData = this.props.jsonData;
     //Moroccan Sahara id = 732
@@ -64,6 +61,7 @@ export default class CoronaMapView extends PureComponent {
       .attr("class", "country")
       .attr("d", d => this.calculatePath(d))
       .attr("fill", `rgb(218, 218, 97)`)
+      // .attr("transform","translate(-4230.86434778367,-2496.7718614477044) scale(12.125732532083187)")
       .on("click", (d) => {
         console.log("Welcome to morocco <3", d)
         this.props.clickOnCountry()
@@ -72,7 +70,7 @@ export default class CoronaMapView extends PureComponent {
 
   render() {
     return (
-      <Legend></Legend>
+      ""
     );
   }
 
@@ -100,82 +98,7 @@ export default class CoronaMapView extends PureComponent {
     return svg;
   }
 
-  //Draw the world Map
-  drawMap = (node, worldData) => {
-    console.log("call drawMap")
-      var g = node
-        .append("g")
-        .attr("id", "worldMap")
-        .attr("className", "countries");
-      g.selectAll("path")
-        .data(worldData)
-        .enter()
-        .append("path")
-        .attr("key", (d, i) => `path-${i}`)
-        .attr("d", d => this.calculatePath(d))
-        .attr("class", "country")
-        .attr("fill", (d) => {
-          return this.markDesease(d)
-        })
-        .on("click", (d) => {
-          this.props.clickOnCountry(d);
-        })
-      // .on("mouseout",()=>{
-      //   this.props.closePanel();
-      // })
-      return g;
-
-  };
-
-  //Color land 
-  markDesease = (d) => {
-    let elt = this.props.covid19.data.filter((e) => {
-      let countryTrimmed = e.Country ? e.Country.trim() : "";
-
-      return countryTrimmed == d.properties.name
-    })
-    if (elt[0]) {
-      let totalCases = elt[0].TotalCases;
-      return this.getCountryColor(totalCases);
-
-    } else {
-      return `rgba(218, 223, 225, 1)`
-    }
-  }
-
-  //Get country color range rgba(255,255,255)
-  getCountryColor = (totalCases) => {
-
-    if (0 < totalCases && totalCases <= 100) {
-      return 'rgb(218, 218, 97)'
-    } else if (100 <= totalCases && totalCases < 200) {
-      return 'rgb(211, 167, 101)'
-    } else if (200 <= totalCases && totalCases < 500) {
-      return 'rgb(192, 143, 69)'
-    } else if (500 <= totalCases && totalCases < 1000) {
-      return 'rgb(206, 130, 80)'
-    } else if (1000 <= totalCases && totalCases < 5000) {
-      return 'rgb(187, 111, 61)'
-    } else if (5000 <= totalCases && totalCases < 30000) {
-      return 'rgb(150, 51, 51)'
-    } else if (15000 <= totalCases && totalCases < 100000) {
-      return 'rgb(145, 10, 10)'
-    }
-
-  }
-
-
-  filterCountriesByDesease = (data) => {
-    let dataFiltered = data.filter(d =>
-      (d.stat != 0 && d.stat.TotalCases != 0)
-      && (d.data.country != "DP")
-    )
-    dataFiltered.sort((e1, e2) => {
-      return e2.stat.TotalCases - e1.stat.TotalCases
-    })
-    return dataFiltered;
-  }
-
+ 
 
   //Add zoom
   addZoom = svg => {
@@ -188,16 +111,16 @@ export default class CoronaMapView extends PureComponent {
   zoomed = svg => {
     var transform = d3.event.transform;
 
-    svg.selectAll("path,circle").attr("transform", transform);
+    svg.selectAll("path").attr("transform", transform);
 
   };
 
 
   //Projection and path calculator
   projection = () =>{
-    var geoMercator = d3
-      .geoMercator()
-      .scale(100)
+    var geoMercator = d3.geoMercator()
+      .center([-15,26])
+      .scale(1200)
       .translate([800 / 2, 550 / 2]);
 
     var projection2 = d3

@@ -3,10 +3,8 @@ import React, { Component } from "react";
 import { feature } from "topojson-client";
 import CoronaMapView from "../../Components/coronamap/CoronaMapView";
 import Panel from "../../Components/panelchart/Panel";
-import Region from "../../Components/region/Region";
-import ToggleBtn from "../../Components/toggleButton/ToggleBtn";
 import DataHelper from "../../Utils/DataHelper.js";
-import countries110 from "./../../../../src/countries-110m.json"
+import countries110 from "./../../../../src/countries-110m.json";
 import countries from "./../data/countries.tsv";
 import covid19 from "./../data/covid19.json";
 
@@ -54,35 +52,18 @@ class Container extends Component {
     }
     console.log("call Container render")
     const { worldData, jsonData, countries, panelOpacity, circleLoaded } = this.state;
-
-    let region = "";
-
-    if (this.state.checkToggleBTn) {
-      region = <Region
-        worldData={worldData}
-        countries={countries}
-        covid19={covid19}
-        clickOnCircle={d => {
-          this.clickOnCircle(d);
-        }
-        }
-      />
-    }
+      var Morocco = worldData.filter((d)=>{
+        return d.properties.name == 'Morocco'
+      });
     if (jsonData.length != 0) {
       return (
         <div>
           <CoronaMapView
-            worldData={worldData}
             jsonData={jsonData}
             closePanel={() => { this.closePanelDetails() }}
             countries={countries}
             covid19={covid19}
             clickOnCountry={(d) => { this.clickOnCountry(d) }}
-          />
-          {region}
-          <ToggleBtn
-            checked={this.state.checkToggleBTn}
-            click={() => this.switchToggleBtn()}
           />
           <Panel
             opacity={panelOpacity}
