@@ -2,41 +2,32 @@
     width: 100%;
     margin: 0 auto;
     display: inline-block;
+    text-align:center;
   }
   .leftside{
     height: 100vh;
     width: 5%;
-    display: inline-block;
-    background: rgba(68, 68, 68, 0.8);
-    margin-right: 0.1%;
-    /* border-radius: 3%; */
+    background:rgba(224, 223, 223, 0.8);
+    border: solid 1px silver;
   }
   .rightside{
-    height: 100vh;
     width: 94%;
-    display: inline-block;
-    /* border-radius: 1%; */
-    /* margin-right: 5px; */
-    background:rgba(39, 39, 39, 0.8);
+    overflow: auto;
+    border: solid 1px silver;
+    background:rgba(192, 189, 189, 0.8);
   }
   .group-btn{
-    /* margin-left: 25px; */
+    margin: auto;
   }
   .btn{
     width: 95% !important;
-    height: 3rem !important;
-    text-align: right !important;
+    height: 3.5rem !important;
+    text-align: center !important;
     margin-bottom: 2px !important;
     border-radius: 0.2 !important;
-    border-color: silver !important;
-    background-color: rgba(135, 206, 235,0.8) !important;
-    transition-duration: 0.4s !important;
+    background-color: Transparent !important;
+    transition-duration: 0.2s !important;
   }
   .btn:hover {
-    background-color: rgba(2, 2, 2, 0.8) !important;
-    color: white !important;
-  }
-  .div.group-btn div{
-    padding: 40px 100px 40px 50px;
-    background-color: red;
+    color: rgb(86, 93, 202) !important;
   }

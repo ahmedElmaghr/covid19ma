@@ -1,9 +1,9 @@
 import * as d3 from "d3";
-import { PureComponent } from "react";
+import { Component } from "react";
 import { merge } from "topojson-client";
 import "./CoronaMapViewCss.css";
 
-export default class CoronaMapView extends PureComponent {
+export default class CoronaMapView extends Component {
   //Constantes
 
   width = "100%";
@@ -34,14 +34,6 @@ export default class CoronaMapView extends PureComponent {
     }
   }
 
-  shouldComponentUpdate(nextProps,nextState){
-    console.log("shouldComponentUpdate CoronaMapView")
-    console.log("CoronaMapView nextProps",nextProps)
-    console.log("CoronaMapView nextProps",nextState)
-
-
-    return true;
-  }
   drawMorocco = g => {
     //merge Morocco
     var jsonData = this.props.jsonData;
@@ -58,10 +50,8 @@ export default class CoronaMapView extends PureComponent {
     //
     g.append("path")
       .datum(merge(jsonData, toBeMerged))
-      .attr("class", "country")
+      .attr("class", "morocco")
       .attr("d", d => this.calculatePath(d))
-      .attr("fill", `rgb(218, 218, 97)`)
-      // .attr("transform","translate(-4230.86434778367,-2496.7718614477044) scale(12.125732532083187)")
       .on("click", (d) => {
         console.log("Welcome to morocco <3", d)
         this.props.clickOnCountry()
@@ -74,25 +64,18 @@ export default class CoronaMapView extends PureComponent {
     );
   }
 
-  initMarkersAndLinks = () => {
-    d3.selectAll(".markers").remove();
-    d3.selectAll(".paths").remove();
-  };
-
-
   //Draw svg wrapper for map
   drawSvgWrapper() {
     //Construct Body
-    var body = d3.select("#dashboard")
+    var body = d3.select("#mapMorocco")
 
     //Construct SVG
     var svg = body
-      .append("div")
       .append("svg")
       .attr("class", "svg")
       .attr("id", "content")
-      .attr("width", this.width)
-      .attr("height", this.height)
+      // .attr("width", this.width)
+      // .attr("height", this.height)
       .attr("viewBox", this.viewBox)
       ;
     return svg;
@@ -103,7 +86,6 @@ export default class CoronaMapView extends PureComponent {
   //Add zoom
   addZoom = svg => {
     svg.call(d3.zoom().on("zoom", () => {
-      this.props.closePanel();
       this.zoomed(svg)
     }));
   };

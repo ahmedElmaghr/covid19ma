@@ -17,14 +17,14 @@ ReactDOM.render(
             <Route exact path="/" component={() => {
                 return <Covid19Container></Covid19Container>
             }} />
-            <Route exact path="/covid19wordwide" component={() => {
-                return <Covid19Container context={"covid19wordwide"}></Covid19Container>
+            <Route exact path="/page1" component={() => {
+                return <Covid19Container context={"page1"}></Covid19Container>
             }} />
-            <Route exact path="/covid19ma" component={() => {
-                return <Covid19Container context={"covid19ma"}></Covid19Container>
+            <Route exact path="/page2" component={() => {
+                return <Covid19Container context={"page2"}></Covid19Container>
             }} />
-            <Route exact path="/infos" component={() => {
-                return <Covid19Container context={"infos"}></Covid19Container>
+            <Route exact path="/page3" component={() => {
+                return <Covid19Container context={"page3"}></Covid19Container>
             }} />
             <Route path="/test" component={() => {
                 return <div>This is a test page</div>
