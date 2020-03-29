@@ -1,17 +1,28 @@
 html, body { margin:0; padding:0; overflow:hidden }
 .svg{
   /* border-style:dashed; */
-  background-color:rgb(15, 21, 80);
+  background-color:rgb(110, 156, 156);
   position:relative; top:0; bottom:0; left:0; right:0;
-  border: solid 2px white;
-  border-radius: .25rem;
+  border-radius: 4rem;
+  /* border-radius: .25rem; */
 }
 
 .morocco{
   cursor: pointer;
-  fill: rgb(110, 156, 156);
+  fill: rgb(31, 37, 37);
 }
-.morocco:hover{
+/* .morocco:hover{
   stroke-width: 1.5;
-  stroke: rgb(128, 56, 21);
+  stroke: rgb(255, 255, 255);
+} */
+.marker-red{
+  fill: rgba(216, 8, 8, 0.5);
+  stroke: whitesmoke;
+  stroke-width: 0.5 ;
+  cursor: pointer;
+
+}
+.marker-red:hover { 
+  stroke: rgb(255, 255, 255);
+  fill: rgba(31, 1, 1, 0.5);
 }

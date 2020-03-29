@@ -6,21 +6,16 @@ import "./CoronaMapViewCss.css";
 export default class CoronaMapView extends Component {
   //Constantes
 
-  width = "100%";
-  height = "100%";
-  viewBox = `0 0 800 400`;
-  borderColor = "blue";
+  width = window.screen.width;
+  height = window.screen.height;
+  viewBox = `50 0 800 400`;
   constructor(props) {
     super(props);
-    this.state = {
-      medias_francais: [],
-    };
+    this.state = {};
   }
 
-  
-
   componentWillMount() {
-    console.log("componentWillMount")
+    console.log("componentWillMount");
     if (this.props.jsonData.length != 0) {
       //Draw svg Wrapper
       var svg = this.drawSvgWrapper();
@@ -46,62 +41,111 @@ export default class CoronaMapView extends Component {
       d => d.id == 732
     );
     var toBeMerged = [morocco[0], morrocanSahara[0]];
-    console.log("toBeMerged", toBeMerged)
+    console.log("toBeMerged", toBeMerged);
     //
     g.append("path")
       .datum(merge(jsonData, toBeMerged))
       .attr("class", "morocco")
       .attr("d", d => this.calculatePath(d))
-      .on("click", (d) => {
-        console.log("Welcome to morocco <3", d)
-        this.props.clickOnCountry()
-      })
+      .on("click", d => {
+        this.props.clickOnCountry();
+      });
   };
 
   render() {
-    return (
-      ""
-    );
+    const { morrocancities } = this.props;
+    let markers = d3.selectAll("#markersCases");
+    if (markers.empty()) {
+      this.drawZone(morrocancities);
+    }
+    return "";
   }
+
+  drawZone = morrocancities => {
+    var root = d3.select("#gWrapper");
+    var markers = root.append("g").attr("id", "markers");
+    markers
+      .selectAll("circle")
+      .data(morrocancities)
+      .enter()
+      .append("circle")
+      .on("click", (d, i) => {})
+      .attr("id", "markersCases")
+      .attr("key", d => `marker-${d.citie.name}`)
+      .attr("class", "marker-red")
+      .attr("cx", d => {
+        return this.getCx(d);
+      })
+      .attr("cy", d => {
+        return this.getCy(d);
+      })
+      .attr("r", d => {
+        return this.getRadius(d);
+      })
+      .append("title")
+      .text(d => {
+        return `${d.citie.name} : ${d.cases} حالة`;
+      });
+  };
+
+  getRadius = d => {
+    let rayon = d.cases / 5;
+    console.log(rayon);
+    return 0 < rayon && rayon < 1 ? 1 : rayon;
+  };
+  getCx = d => {
+    console.log("d", d);
+    if (d) {
+      var lat = d.citie.coordinate.lat;
+      var long = d.citie.coordinate.long;
+
+      var coordinate = [long, lat];
+      return this.projection()(coordinate)[0];
+    }
+  };
+
+  getCy = d => {
+    if (d) {
+      var lat = d.citie.coordinate.lat;
+      var long = d.citie.coordinate.long;
+      var coordinate = [long, lat];
+      return this.projection()(coordinate)[1];
+    }
+  };
 
   //Draw svg wrapper for map
   drawSvgWrapper() {
     //Construct Body
-    var body = d3.select("#mapMorocco")
+    var body = d3.select("#mapMorocco");
 
     //Construct SVG
     var svg = body
       .append("svg")
       .attr("class", "svg")
       .attr("id", "content")
-      // .attr("width", this.width)
-      // .attr("height", this.height)
-      .attr("viewBox", this.viewBox)
-      ;
+      .attr("viewBox", this.viewBox);
     return svg;
   }
 
- 
-
   //Add zoom
   addZoom = svg => {
-    svg.call(d3.zoom().on("zoom", () => {
-      this.zoomed(svg)
-    }));
+    svg.call(
+      d3.zoom().on("zoom", () => {
+        this.zoomed(svg);
+      })
+    );
   };
 
   zoomed = svg => {
     var transform = d3.event.transform;
-
-    svg.selectAll("path").attr("transform", transform);
-
+    svg.selectAll("path,circle").attr("transform", transform);
   };
 
-
   //Projection and path calculator
-  projection = () =>{
-    var geoMercator = d3.geoMercator()
-      .center([-15,26])
+  projection = () => {
+    var geoMercator = d3
+      .geoMercator()
+      .center([-15, 26])
       .scale(1200)
       .translate([800 / 2, 550 / 2]);
 
@@ -116,7 +160,7 @@ export default class CoronaMapView extends Component {
       //.translate([width / 2, height / 2])
       .precision(0.3);
     return geoMercator;
-  }
+  };
 
   calculatePath = d => {
     return d3.geoPath().projection(this.projection())(d);

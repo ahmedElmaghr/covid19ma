@@ -1,22 +1,14 @@
-import * as d3 from "d3";
 import React, { Component } from "react";
 import { feature } from "topojson-client";
 import CoronaMapView from "../../Components/coronamap/CoronaMapView";
-import DataHelper from "../../Utils/DataHelper.js";
 import countries110 from "./../../../../src/countries-110m.json";
-import countries from "./../data/countries.tsv";
-import covid19 from "./../data/covid19.json";
 
-class Container extends Component {
+class CoronaMaContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       worldData: [],
       jsonData: [],
-      countries: [],
-      covid19: covid19,
-      pieOpacity: 0,
-      panelOpacity: 0,
 
     };
   }
@@ -33,15 +25,16 @@ class Container extends Component {
   }
 
   render() {
-    if (this.props && !this.props.visible) {
-      return "";
+    if (!this.props.visible) {
+      return <div/>;
     }
     console.log("call Container render")
-    const { jsonData, countries, panelOpacity } = this.state;
+    const { jsonData} = this.state;
     if (jsonData.length != 0) {
       return (
           <CoronaMapView
             jsonData={jsonData}
+            morrocancities = {this.props.data}
             clickOnCountry={(d) => { this.clickOnCountry(d) }}
           />
       );
@@ -56,4 +49,4 @@ class Container extends Component {
 
 }
 
-export default Container;
+export default CoronaMaContainer;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './CardComponent.css'
+import './CardComponent.css';
 class CardComponent extends Component {
 
     render() {
@@ -18,7 +18,7 @@ class CardComponent extends Component {
                 return <i class="fa fa-heartbeat" aria-hidden="true"></i>
                 break;
             case 'info':
-                return <i class="fa fa-heart" aria-hidden="true"></i>
+                return <i class="fa fa-smile-o" aria-hidden="true"></i>
                 break;
             case 'warning':
                 return <i class="fa fa-ambulance" aria-hidden="true"></i>
