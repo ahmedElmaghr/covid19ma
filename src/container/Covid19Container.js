@@ -56,12 +56,12 @@ class Covid19Container extends Component {
         <div className="leftside">
           <div className="group-btn">
             <div style={{ fontSize: this.iconFontSize, margin: 0 }}>
-              <Link className="btn" to="/page1">
+              <Link className="btn" to={process.env.PUBLIC_URL + "/page1"}>
                 <i className="fa fa-home" aria-hidden="true"></i>
               </Link>
             </div>
             <div style={{ fontSize: this.iconFontSize }}>
-              <Link className="btn" to="/page2">
+              <Link className="btn" to={process.env.PUBLIC_URL + "/page2"}>
                 <i
                   class="fa fa-line-chart"
                   aria-hidden="true"
@@ -70,7 +70,7 @@ class Covid19Container extends Component {
               </Link>
             </div>
             <div style={{ fontSize: this.iconFontSize }}>
-              <Link className="btn" to="/page3">
+              <Link className="btn" to={process.env.PUBLIC_URL + "/page3"}>
                 <i
                   class="fa fa-info"
                   aria-hidden="true"
@@ -81,7 +81,11 @@ class Covid19Container extends Component {
           </div>
         </div>
         <div id="dashbordContainer" class="dash-container">
-          <div id="dashboard" className="rightside" style={{height:screenHeight +'px'}}>
+          <div
+            id="dashboard"
+            className="rightside"
+            style={{ height: screenHeight + "px" }}
+          >
             {this.buildPageByContext(context)}
           </div>
         </div>
@@ -90,6 +94,7 @@ class Covid19Container extends Component {
   }
   /**Use the strategy pattern */
   buildPageByContext = context => {
+    console.log("context", context);
     switch (context) {
       case "page1":
         return this.buildPage1();
@@ -127,9 +132,9 @@ class Covid19Container extends Component {
     }
     const { active, deaths, recovered } = this.state.moroccanData;
     return (
-      <div className="container" style={{ marginTop: 2 + "vh" }}>
+      <div className="container-fluid" style={{ marginTop: 2 + "vh" }}>
         <div id="stat-ma-counter">
-          <h1>بؤر إنتشار الفايروس بالمغرب</h1>
+          <h1>بؤر إنتشار الفيروس بالمغرب</h1>
           <div className="row" style={{ marginTop: "50px" }}>
             <div className="col">
               <CardComponent
@@ -163,6 +168,27 @@ class Covid19Container extends Component {
               ></CoronaMaContainer>
             </div>
           </div>
+          {morrocancities && (
+            <div id="panelRegion" className="col-4 panel-region">
+              <ul class="list-group">
+                {morrocancities.map((value, index) => {
+                  console.log("value", value, "index", index);
+                  return (
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center"
+                      style={{ height: 1 + "rem" }}
+                    >
+                      {value.citie.name}
+                      <span class="badge badge-primary badge-pill">
+                        <CountUp end={value.cases} />
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+          }
         </div>
       </div>
     );

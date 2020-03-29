@@ -1,6 +1,6 @@
 {
-  "homepage": "./",
-  "name": "template-covid19",
+  "homepage": "https://ahmedelmaghr.github.io/covid19ma",
+  "name": "covid19ma",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

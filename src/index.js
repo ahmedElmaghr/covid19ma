@@ -14,19 +14,19 @@ ReactDOM.render(
     <Router history={hist}>
         <Switch>
 
-            <Route exact path="/" component={() => {
+            <Route exact path={process.env.PUBLIC_URL+"/"} component={() => {
                 return <Covid19Container></Covid19Container>
             }} />
-            <Route exact path="/page1" component={() => {
+            <Route exact path={process.env.PUBLIC_URL+"/page1"} component={() => {
                 return <Covid19Container context={"page1"}></Covid19Container>
             }} />
-            <Route exact path="/page2" component={() => {
+            <Route exact path={process.env.PUBLIC_URL+"/page2"} component={() => {
                 return <Covid19Container context={"page2"}></Covid19Container>
             }} />
-            <Route exact path="/page3" component={() => {
+            <Route exact path={process.env.PUBLIC_URL+"/page3"} component={() => {
                 return <Covid19Container context={"page3"}></Covid19Container>
             }} />
-            <Route path="/test" component={() => {
+            <Route path={process.env.PUBLIC_URL+"/test"} component={() => {
                 return <div>This is a test page</div>
             }} />
         </Switch>
