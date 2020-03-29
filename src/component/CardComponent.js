@@ -17,7 +17,7 @@ class CardComponent extends Component {
             case 'danger':
                 return <i class="fa fa-heartbeat" aria-hidden="true"></i>
                 break;
-            case 'info':
+            case 'good':
                 return <i class="fa fa-smile-o" aria-hidden="true"></i>
                 break;
             case 'warning':

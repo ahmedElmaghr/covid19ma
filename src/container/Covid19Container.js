@@ -4,7 +4,8 @@ import CardComponent from "../component/CardComponent";
 import LineChart from "../component/linechart/Line Chart";
 import DoughnutChart from "../component/piechart/DoughnutChart";
 import CoronaMaContainer from "../coronamaroc/main/container/CoronaMaContainer";
-import morrocancities from '../morrocan-data.json';
+import morrocancities from "../morrocan-data.json";
+import CountUp from "react-countup";
 import "./Covid19Container.css";
 
 // import PieChart from '../component/piechart/PieChart';
@@ -49,6 +50,7 @@ class Covid19Container extends Component {
 
   render() {
     const { context } = this.props;
+    var screenHeight = window.screen.height - 20;
     return (
       <div className="row">
         <div className="leftside">
@@ -79,7 +81,7 @@ class Covid19Container extends Component {
           </div>
         </div>
         <div id="dashbordContainer" class="dash-container">
-          <div id="dashboard" className="rightside">
+          <div id="dashboard" className="rightside" style={{height:screenHeight +'px'}}>
             {this.buildPageByContext(context)}
           </div>
         </div>
@@ -120,46 +122,51 @@ class Covid19Container extends Component {
   };
 
   buildPage1 = () => {
-      if(!this.state.moroccanData){
-          return <div/>
-      }
+    if (!this.state.moroccanData) {
+      return <div />;
+    }
     const { active, deaths, recovered } = this.state.moroccanData;
     return (
       <div className="container" style={{ marginTop: 2 + "vh" }}>
-        <div className="row" style={{ marginTop: "50px" }}>
-          <div className="col">
-            <CardComponent
-              level="danger"
-              title="عدد الوفيات"
-              value={deaths}
-            ></CardComponent>
-          </div>
-          <div className="col">
-            <CardComponent
-              level="info"
-              title="حالات الشفاء"
-              value={recovered}
-            ></CardComponent>
-          </div>
-          <div className="col">
-            <CardComponent
-              level="warning"
-              title="عدد الإصابات"
-              value={active}
-            ></CardComponent>
+        <div id="stat-ma-counter">
+          <h1>بؤر إنتشار الفايروس بالمغرب</h1>
+          <div className="row" style={{ marginTop: "50px" }}>
+            <div className="col">
+              <CardComponent
+                level="danger"
+                title="عدد الوفيات"
+                value={<CountUp end={deaths} />}
+              ></CardComponent>
+            </div>
+            <div className="col">
+              <CardComponent
+                level="good"
+                title="حالات الشفاء"
+                value={<CountUp end={recovered} />}
+              ></CardComponent>
+            </div>
+            <div className="col">
+              <CardComponent
+                level="warning"
+                title="عدد الإصابات"
+                value={<CountUp end={active} />}
+              ></CardComponent>
+            </div>
           </div>
         </div>
         <div className="row" style={{ marginTop: "50px" }}>
           <div className="col">
             <div id="mapMorocco">
-              <CoronaMaContainer visible={true} data={morrocancities}></CoronaMaContainer>
+              <CoronaMaContainer
+                visible={true}
+                data={morrocancities}
+              ></CoronaMaContainer>
             </div>
           </div>
         </div>
       </div>
     );
   };
- 
 
   buildPage2 = () => {
     return (

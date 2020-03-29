@@ -1,0 +1,8 @@
+.panel-region {
+  position: absolute;
+  margin: 4rem;
+  z-index: 1;
+  /* width: 20%;
+  height: 60%; */
+  border: solid;
+}

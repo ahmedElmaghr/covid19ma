@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { Component } from "react";
+import React, { Component } from "react";
 import { merge } from "topojson-client";
 import "./CoronaMapViewCss.css";
 
@@ -14,19 +14,43 @@ export default class CoronaMapView extends Component {
     this.state = {};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     console.log("componentWillMount");
-    if (this.props.jsonData.length != 0) {
+    const { morrocancities, jsonData } = this.props;
+    let markers = d3.selectAll("#markersCases");
+    if (jsonData.length != 0 && markers.empty()) {
       //Draw svg Wrapper
-      var svg = this.drawSvgWrapper();
+      var svg = d3.selectAll("#content");
       var gGlobal = svg.append("g").attr("id", "gWrapper");
       //Merge moroccan sahara and draw morroca
       this.drawMorocco(gGlobal);
-      //
+      //draw zone desease
+      this.drawZone(morrocancities);
       //add zoom
       var wrapper = d3.select("#content");
       this.addZoom(wrapper);
     }
+  }
+
+  render() {
+    var leftside = d3.selectAll(".leftside");
+    var dashbordContainer = d3.selectAll("#dashbordContainer");
+    var statMaCounter =d3.selectAll("#stat-ma-counter");
+    let leftsideBBox = leftside.node().getBoundingClientRect()
+    let dashbordContainerBBox = dashbordContainer.node().getBoundingClientRect()
+    let statMaCounterBBox = statMaCounter.node().getBoundingClientRect()
+
+    // let right = dashbordContainerBBox.width/2 + leftsideBBox.width + 'px'
+    let left = leftsideBBox.width 
+    let top = dashbordContainerBBox.height*.4 
+    let marginTop = statMaCounterBBox.height*1.2 ;
+    console.log("left top",left,top)
+    return (
+      <svg id="content" className="svg" viewBox={this.viewBox} 
+      // style={{top:0 ,left:left,marginTop:marginTop}}
+      >
+      </svg>
+    );
   }
 
   drawMorocco = g => {
@@ -51,15 +75,6 @@ export default class CoronaMapView extends Component {
         this.props.clickOnCountry();
       });
   };
-
-  render() {
-    const { morrocancities } = this.props;
-    let markers = d3.selectAll("#markersCases");
-    if (markers.empty()) {
-      this.drawZone(morrocancities);
-    }
-    return "";
-  }
 
   drawZone = morrocancities => {
     var root = d3.select("#gWrapper");
@@ -112,20 +127,6 @@ export default class CoronaMapView extends Component {
       return this.projection()(coordinate)[1];
     }
   };
-
-  //Draw svg wrapper for map
-  drawSvgWrapper() {
-    //Construct Body
-    var body = d3.select("#mapMorocco");
-
-    //Construct SVG
-    var svg = body
-      .append("svg")
-      .attr("class", "svg")
-      .attr("id", "content")
-      .attr("viewBox", this.viewBox);
-    return svg;
-  }
 
   //Add zoom
   addZoom = svg => {
