@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import CountUp from "react-countup";
 import { Link } from "react-router-dom";
 import CardComponent from "../component/CardComponent";
 import LineChart from "../component/linechart/Line Chart";
 import DoughnutChart from "../component/piechart/DoughnutChart";
 import CoronaMaContainer from "../coronamaroc/main/container/CoronaMaContainer";
 import morrocancities from "../morrocan-data.json";
-import CountUp from "react-countup";
+import Home from './../view/home/Home';
 import "./Covid19Container.css";
-
-// import PieChart from '../component/piechart/PieChart';
+import StackedAreaChart from './../component/stackedArea/StackedAreaChart'
 class Covid19Container extends Component {
   iconFontSize = 100 + "%";
   constructor(props) {
@@ -36,7 +36,6 @@ class Covid19Container extends Component {
     fetch("https://corona.lmao.ninja/countries/morocco")
       .then(response => {
         response.json().then(data => {
-          console.log("data", data);
           this.setState({
             moroccanData: data
           });
@@ -46,31 +45,37 @@ class Covid19Container extends Component {
         // If there is any error you will catch them here
         console.log("error", error);
       });
+      
   }
 
   render() {
     const { context } = this.props;
-    var screenHeight = window.screen.height - 20;
+    var screenHeight = window.screen.height * .8;
     return (
       <div className="row">
         <div className="leftside">
           <div className="group-btn">
             <div style={{ fontSize: this.iconFontSize, margin: 0 }}>
-              <Link className="btn" to={process.env.PUBLIC_URL + "/page1"}>
+              <Link className="btn" to={process.env.PUBLIC_URL + "/home"}>
                 <i className="fa fa-home" aria-hidden="true"></i>
               </Link>
             </div>
             <div style={{ fontSize: this.iconFontSize }}>
               <Link className="btn" to={process.env.PUBLIC_URL + "/page2"}>
                 <i
-                  class="fa fa-line-chart"
+                  class="fa fa-globe"
                   aria-hidden="true"
                   style={{ fontSize: this.iconFontSize }}
                 ></i>
               </Link>
             </div>
-            <div style={{ fontSize: this.iconFontSize }}>
+            <div style={{ fontSize: this.iconFontSize, margin: 0 }}>
               <Link className="btn" to={process.env.PUBLIC_URL + "/page3"}>
+                <i className="fa fa-line-chart" aria-hidden="true"></i>
+              </Link>
+            </div>
+            <div style={{ fontSize: this.iconFontSize }}>
+              <Link className="btn" to={process.env.PUBLIC_URL + "/page4"}>
                 <i
                   class="fa fa-info"
                   aria-hidden="true"
@@ -97,11 +102,13 @@ class Covid19Container extends Component {
     console.log("context", context);
     switch (context) {
       case "page1":
-        return this.buildPage1();
+      return this.buildPage1();
       case "page2":
         return this.buildPage2();
       case "page3":
         return this.buildPage3();
+      case "page4":
+        return this.buildPage4();
     }
   };
 
@@ -168,33 +175,16 @@ class Covid19Container extends Component {
               ></CoronaMaContainer>
             </div>
           </div>
-          {morrocancities && (
-            <div id="panelRegion" className="col-4 panel-region">
-              <ul class="list-group">
-                {morrocancities.map((value, index) => {
-                  console.log("value", value, "index", index);
-                  return (
-                    <li
-                      class="list-group-item d-flex justify-content-between align-items-center"
-                      style={{ height: 1 + "rem" }}
-                    >
-                      {value.citie.name}
-                      <span class="badge badge-primary badge-pill">
-                        <CountUp end={value.cases} />
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          )}
-          }
+         
         </div>
       </div>
     );
   };
-
   buildPage2 = () => {
+    return <Home historicalData={this.state.historicalData}></Home>  
+  }
+  buildPage3 = () => {
+
     return (
       <div className="container" style={{ marginTop: 2 + "vh" }}>
         <h1>الإحصائيات</h1>
@@ -208,14 +198,95 @@ class Covid19Container extends Component {
         </div>
         <div className="row" style={{ marginTop: 2 + "vh" }}>
           <div className="col">
-            <LineChart data={this.state.historicalData}></LineChart>
+            <StackedAreaChart  data={this.getNorthAfricaData(this.state.historicalData)}></StackedAreaChart>
           </div>
         </div>
       </div>
     );
   };
 
-  buildPage3 = () => {
+  getNorthAfricaData = (data) => {
+    if (!data) {
+      return null;
+    }
+
+    return [
+      {
+        type: "stackedArea",
+        name: "Mauritania",
+        showInLegend: true,
+        xValueFormatString: "YYYY",
+        dataPoints: this.getCasePointByCountryName(data, "Mauritania"),
+      },
+      {
+        type: "stackedArea",
+        name: "Lybia",
+        showInLegend: true,
+        xValueFormatString: "YYYY",
+        dataPoints: this.getCasePointByCountryName(
+          data,
+          "Libyan Arab Jamahiriya"
+        ),
+      },
+      {
+        type: "stackedArea",
+        name: "Tunisia",
+        showInLegend: true,
+        xValueFormatString: "YYYY",
+        dataPoints: this.getCasePointByCountryName(data, "Tunisia"),
+      },
+      {
+        type: "stackedArea",
+        name: "Maroc",
+        showInLegend: true,
+        xValueFormatString: "YYYY",
+        dataPoints: this.getCasePointByCountryName(data, "Morocco"),
+      },
+      {
+        type: "stackedArea",
+        name: "Egypt",
+        showInLegend: true,
+        xValueFormatString: "YYYY",
+        dataPoints: this.getCasePointByCountryName(data, "Egypt"),
+      },
+      {
+        type: "stackedArea",
+        name: "Algérie",
+        showInLegend: true,
+        xValueFormatString: "YYYY",
+        dataPoints: this.getCasePointByCountryName(data, "Algeria"),
+      },
+    ];
+  };
+
+  getCasePointByCountryName = (data, countryName) => {
+    if(!data){
+        return "";
+    }
+  var returnedData = [];
+  var countryData;
+  if (countryName) {
+    countryData = data.filter((d) => {
+      return d.country == countryName;
+    })[0];
+  } else {
+    countryData = data;
+    console.log("countryData", countryData);
+  }
+  var cases = countryData.timeline.cases;
+  var keys = Object.keys(cases);
+  var values = Object.values(cases);
+
+  values.forEach((d, i) => {
+    returnedData.push({
+      y: d,
+      label: keys[i],
+    });
+  });
+  return returnedData;
+};
+
+  buildPage4 = () => {
     return (
       <div className="container" style={{ marginTop: 2 + "vh" }}>
         <h1>الإرشادات</h1>

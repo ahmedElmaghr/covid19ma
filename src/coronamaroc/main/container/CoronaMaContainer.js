@@ -11,6 +11,11 @@ class CoronaMaContainer extends Component {
       worldData: [],
       jsonData: [],
     };
+    const mappleConfig = {
+      mappleType: 'contra',
+      shadow: true,
+      borderRadius: 6,
+      tipPosition: 14}
   }
 
 
@@ -34,6 +39,19 @@ class CoronaMaContainer extends Component {
     if (jsonData.length != 0) {
       return (
         <div>
+          <div id="panelRegion" className="panel-region">
+            <ul class="list-group">
+              {data.map((value, index) => {
+                console.log("value",value,"index",index)
+              return (
+                <li class="list-group-item d-flex justify-content-between align-items-center" style={{height:1+'rem'}} >
+                  {value.citie.name}
+                  <span class="badge badge-primary badge-pill"><CountUp end={value.cases} /></span>
+                </li>
+              );
+              })}
+            </ul>
+          </div>
           <CoronaMapView
             jsonData={jsonData}
             morrocancities={data}

@@ -29,7 +29,7 @@ class LineChart extends Component {
 				showInLegend: true,
 				name:"morocco",
 				toolTipContent: "Day {label}: {y}",
-				dataPoints: this.getCasePointByCountryName(data,"morocco")
+				dataPoints: this.getCasePointByCountryName(data,"Morocco")
 				
 			},
 			{
@@ -37,21 +37,21 @@ class LineChart extends Component {
 				showInLegend: true,
 				name:"algeria",
 				toolTipContent: "Day {label}: {y}",
-				dataPoints: this.getCasePointByCountryName(data,"algeria")
+				dataPoints: this.getCasePointByCountryName(data,"Algeria")
 			},
 			{
 				type: "spline",
 				showInLegend: true,
 				name:"tunisia",
 				toolTipContent: "Day {label}: {y}",
-				dataPoints: this.getCasePointByCountryName(data,"tunisia")
+				dataPoints: this.getCasePointByCountryName(data,"Tunisia")
 			},
 			{
 				type: "spline",
 				showInLegend: true,
 				name:"egypt",
 				toolTipContent: "Day {label}: {y}",
-				dataPoints: this.getCasePointByCountryName(data,"egypt")
+				dataPoints: this.getCasePointByCountryName(data,"Egypt")
 			}
 
 		]
