@@ -78,12 +78,14 @@ class Home extends Component {
           <div>
             <StackedAreaChart
               title="Total cases evolution"
+              theme="dark1"
               data={this.getTopCountryCases()}
             ></StackedAreaChart>
           </div>
           <div>
           <StackedAreaChart
               title="Total deaths evolution"
+              theme="dark1"
               data={this.getTopCountryDeaths()}
             ></StackedAreaChart>
           </div>

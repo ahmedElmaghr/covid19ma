@@ -5,11 +5,12 @@
 }
 @media (max-width : 1000px ){
     .panel-region {
-      font-size: 10px;
+      font-size: 8px;
       /* margin: 0 0 3px 0; */
     }
     .list-group{
         max-height: 250px;
+        max-width: 180px;
         margin-bottom: 10px;
         overflow:scroll;
         -webkit-overflow-scrolling: touch;

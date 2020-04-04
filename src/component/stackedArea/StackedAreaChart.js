@@ -22,7 +22,7 @@ class StackedAreaChart extends Component {
       return <div />;
     }
     const options = {
-      theme: "light2",
+      theme: this.props.theme,
       animationEnabled: true,
       exportEnabled: true,
       title: {

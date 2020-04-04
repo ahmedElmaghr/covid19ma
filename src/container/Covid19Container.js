@@ -50,7 +50,7 @@ class Covid19Container extends Component {
 
   render() {
     const { context } = this.props;
-    var screenHeight = window.screen.height * .8;
+    var screenHeight = window.screen.height;
     return (
       <div className="row">
         <div className="leftside">
@@ -60,6 +60,11 @@ class Covid19Container extends Component {
                 <i className="fa fa-home" aria-hidden="true"></i>
               </Link>
             </div>
+            <div style={{ fontSize: this.iconFontSize, margin: 0 }}>
+              <Link className="btn" to={process.env.PUBLIC_URL + "/page3"}>
+                <i className="fa fa-line-chart" aria-hidden="true"></i>
+              </Link>
+            </div>
             <div style={{ fontSize: this.iconFontSize }}>
               <Link className="btn" to={process.env.PUBLIC_URL + "/page2"}>
                 <i
@@ -67,11 +72,6 @@ class Covid19Container extends Component {
                   aria-hidden="true"
                   style={{ fontSize: this.iconFontSize }}
                 ></i>
-              </Link>
-            </div>
-            <div style={{ fontSize: this.iconFontSize, margin: 0 }}>
-              <Link className="btn" to={process.env.PUBLIC_URL + "/page3"}>
-                <i className="fa fa-line-chart" aria-hidden="true"></i>
               </Link>
             </div>
             <div style={{ fontSize: this.iconFontSize }}>
@@ -137,36 +137,59 @@ class Covid19Container extends Component {
     if (!this.state.moroccanData) {
       return <div />;
     }
-    const { active, deaths, recovered } = this.state.moroccanData;
+    const { active,todayCases, deaths,todayDeaths, recovered } = this.state.moroccanData;
     return (
       <div className="container-fluid" style={{ marginTop: 2 + "vh" }}>
         <div id="stat-ma-counter">
-          <h1>بؤر إنتشار الفيروس بالمغرب</h1>
+          <h3>فيروس كورونا عبر جهات المملكة</h3>
           <div className="row" style={{ marginTop: "50px" }}>
-            <div className="col">
-              <CardComponent
-                level="danger"
-                title="عدد الوفيات"
-                value={<CountUp end={deaths} />}
-              ></CardComponent>
+          <div className='col'>
+          <div id="mapMorocco">
+              <CoronaMaContainer
+                visible={true}
+                data={morrocancities}
+              ></CoronaMaContainer>
             </div>
-            <div className="col">
-              <CardComponent
-                level="good"
-                title="حالات الشفاء"
-                value={<CountUp end={recovered} />}
-              ></CardComponent>
             </div>
-            <div className="col">
-              <CardComponent
-                level="warning"
-                title="عدد الإصابات"
-                value={<CountUp end={active} />}
-              ></CardComponent>
+            <div className='col-2'>
+              <div className="col">
+                <CardComponent
+                  level="info"
+                  title="عدد الوفيات"
+                  value={
+                  <div>
+                  <CountUp end={deaths} />
+                  <span class="badge badge-secondary" style = {{marginLeft:1+'rem'}}>{todayDeaths}+ حالاة جديدة</span>
+                  </div>
+                }
+                  
+                ></CardComponent>
+              </div>
+              <div className="col">
+                <CardComponent
+                  level="good"
+                  title="حالات الشفاء"
+                  value={
+                  <CountUp end={recovered} />
+                }
+                ></CardComponent>
+              </div>
+              <div className="col">
+                <CardComponent
+                  level="danger"
+                  title="عدد الإصابات"
+                  value={
+                    <div>
+                  <CountUp end={active} /> 
+                  <span class="badge badge-secondary" style = {{marginLeft:1+'rem'}}>{todayCases}+ حالاة جديدة</span>
+                  </div>
+                }
+                ></CardComponent>
+              </div>
             </div>
           </div>
         </div>
-        <div className="row" style={{ marginTop: "50px" }}>
+        {/* <div className="row" style={{ marginTop: "50px" }}>
           <div className="col">
             <div id="mapMorocco">
               <CoronaMaContainer
@@ -176,7 +199,7 @@ class Covid19Container extends Component {
             </div>
           </div>
          
-        </div>
+        </div> */}
       </div>
     );
   };
@@ -198,7 +221,7 @@ class Covid19Container extends Component {
         </div>
         <div className="row" style={{ marginTop: 2 + "vh" }}>
           <div className="col">
-            <StackedAreaChart  data={this.getNorthAfricaData(this.state.historicalData)}></StackedAreaChart>
+            <StackedAreaChart  data={this.getNorthAfricaData(this.state.historicalData)} theme="light2"></StackedAreaChart>
           </div>
         </div>
       </div>
