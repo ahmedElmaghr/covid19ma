@@ -1,0 +1,15 @@
+.call-box {
+    width: 561px;
+    height: 221px;
+    border-radius: 18px;
+    background-color: #00aca2;
+    max-height: 150px;
+}
+.alarm-box {
+    width: 561px;
+    height: 221px;
+    border-radius: 18px;
+    background-color: #c32e37;
+    max-height: 180px;
+    margin: auto;
+}

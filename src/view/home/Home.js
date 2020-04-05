@@ -8,7 +8,6 @@ class Home extends Component {
     fetch("https://corona.lmao.ninja/v2/historical/france")
       .then((response) => {
         response.json().then((data) => {
-          console.log("frenchHistoricalData", data);
           this.setState({
             frenchHistoricalData: data,
           });
@@ -71,20 +70,19 @@ class Home extends Component {
   }
   
   render() {
-    const { historicalData } = this.props;
     if (this.state) {
       return (
         <div>
           <div>
             <StackedAreaChart
-              title="Total cases evolution"
-              theme="dark1"
+              title="إجمالي تطور الحالات عبر العالم"
+              theme="light1"
               data={this.getTopCountryCases()}
             ></StackedAreaChart>
           </div>
           <div>
           <StackedAreaChart
-              title="Total deaths evolution"
+              title="إجمالي تطور الوفيات عبر العالم"
               theme="dark1"
               data={this.getTopCountryDeaths()}
             ></StackedAreaChart>
@@ -102,7 +100,7 @@ class Home extends Component {
       }
       return [
         {
-            type: "spline",
+            type: "line",
             name: "USA",
             showInLegend: true,
             xValueFormatString: "YYYY",
@@ -112,7 +110,7 @@ class Home extends Component {
           }
           ,
       {
-        type: "spline",
+        type: "line",
         name: "France",
         showInLegend: true,
         xValueFormatString: "YYYY",
@@ -120,7 +118,7 @@ class Home extends Component {
           this.state.frenchHistoricalData
         ),
       },{
-        type: "spline",
+        type: "line",
         name: "Italy",
         showInLegend: true,
         xValueFormatString: "YYYY",
@@ -128,7 +126,7 @@ class Home extends Component {
           this.state.italyHistoricalData
         ),
       },{
-        type: "spline",
+        type: "line",
         name: "china",
         showInLegend: true,
         xValueFormatString: "YYYY",
@@ -136,7 +134,7 @@ class Home extends Component {
           this.state.chinaHistoricalData
         ),
       },{
-        type: "spline",
+        type: "line",
         name: "spain",
         showInLegend: true,
         xValueFormatString: "YYYY",
@@ -153,7 +151,7 @@ class Home extends Component {
     }
     return [
         {
-            type: "spline",
+            type: "line",
             name: "USA",
             showInLegend: true,
             xValueFormatString: "YYYY",
@@ -163,7 +161,7 @@ class Home extends Component {
           }
           ,
       {
-        type: "spline",
+        type: "line",
         name: "France",
         showInLegend: true,
         xValueFormatString: "YYYY",
@@ -171,7 +169,7 @@ class Home extends Component {
           this.state.frenchHistoricalData
         ),
       },{
-        type: "spline",
+        type: "line",
         name: "Italy",
         showInLegend: true,
         xValueFormatString: "YYYY",
@@ -179,7 +177,7 @@ class Home extends Component {
           this.state.italyHistoricalData
         ),
       },{
-        type: "spline",
+        type: "line",
         name: "china",
         showInLegend: true,
         xValueFormatString: "YYYY",
@@ -187,7 +185,7 @@ class Home extends Component {
           this.state.chinaHistoricalData
         ),
       },{
-        type: "spline",
+        type: "line",
         name: "spain",
         showInLegend: true,
         xValueFormatString: "YYYY",
@@ -238,7 +236,6 @@ class Home extends Component {
     })[0];
   } else {
     countryData = data;
-    console.log("countryData", countryData);
   }
   var deaths = countryData.timeline.deaths;
   var keys = Object.keys(deaths);

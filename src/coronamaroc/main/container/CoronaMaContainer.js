@@ -33,7 +33,6 @@ class CoronaMaContainer extends Component {
     if (!this.props.visible) {
       return <div/>;
     }
-    console.log("call Container render")
     const { jsonData} = this.state;
     const { data} = this.props;
     if (jsonData.length != 0) {
@@ -42,7 +41,6 @@ class CoronaMaContainer extends Component {
           <div id="panelRegion" className="panel-region">
             <ul class="list-group">
               {data.map((value, index) => {
-                console.log("value",value,"index",index)
               return (
                 <li class="list-group-item d-flex justify-content-between align-items-center" style={{height:1+'rem'}} >
                   {value.citie.name}

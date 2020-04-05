@@ -68,13 +68,15 @@ class LineChart extends Component {
 	}
 
 	getCasePointByCountryName = (data,countryName)=>{
+		console.log(data)
+		console.log(countryName)
 		var returnedData = [];
 		var countryData = data.filter((d)=>{
 			return d.country == countryName
 		})
 		var cases = countryData[0].timeline.cases;
-		var keys = Object.keys(cases).slice(35,cases.lenght)
-		var values = Object.values(cases).slice(35,cases.lenght)
+		var keys = Object.keys(cases).slice(cases.lenght)
+		var values = Object.values(cases).slice(cases.lenght)
 
 		values.forEach((d,i)=>{
 			returnedData.push(
@@ -83,13 +85,8 @@ class LineChart extends Component {
 				}
 			)
 		})
+		console.log(returnedData)
 		return returnedData;
-	// 	[
-    //   { x: 1, y: 1 },
-    //   { x: 2, y: 2 },
-    //   { x: 3, y: 10 },
-    //   { x: 4, y: 12 }
-    // ];
 	}
 
 	getMorrocanDeathsPoint = (data)=>{
@@ -98,20 +95,16 @@ class LineChart extends Component {
 			return d.country == "morocco"
 		})
 		var deaths = morrocanData[0].timeline.deaths;
-		console.log("deaths",deaths)
 		var keys = Object.keys(deaths).slice(35,deaths.lenght)
 		var values = Object.values(deaths).slice(35,deaths.lenght)
-		console.log("values",values)
 
 		values.forEach((d,i)=>{
-			console.log("keys",i,keys[i])
 			returnedData.push(
 				{
 					y:d,label:keys[i]
 				}
 			)
 		})
-		console.log("returnedData",returnedData)
 		return returnedData;
 	}
 
@@ -123,10 +116,8 @@ class LineChart extends Component {
 		var cases = algeria[0].timeline.cases;
 		var keys = Object.keys(cases).slice(35,cases.lenght)
 		var values = Object.values(cases).slice(35,cases.lenght)
-		console.log("values",values)
 
 		values.forEach((d,i)=>{
-			console.log("keys",i,keys[i])
 			returnedData.push(
 				{
 					y:d,label:keys[i]

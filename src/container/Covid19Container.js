@@ -1,52 +1,52 @@
 import React, { Component } from "react";
-import CountUp from "react-countup";
 import { Link } from "react-router-dom";
-import CardComponent from "../component/CardComponent";
+import "./Covid19Container.css";
+import GlobalInfo from "../component/globalinfo/GlobalInfo";
 import LineChart from "../component/linechart/Line Chart";
 import DoughnutChart from "../component/piechart/DoughnutChart";
 import CoronaMaContainer from "../coronamaroc/main/container/CoronaMaContainer";
 import morrocancities from "../morrocan-data.json";
-import Home from './../view/home/Home';
-import "./Covid19Container.css";
-import StackedAreaChart from './../component/stackedArea/StackedAreaChart'
+import StackedAreaChart from "./../component/stackedArea/StackedAreaChart";
+import Home from "./../view/home/Home";
+import CanvasJSReact from '../canvas-reactjs/canvasjs.react';
+import uiHelper from './../coronamaroc/Utils/UIHelper'
+import Infos from "../view/info/Infos";
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Covid19Container extends Component {
   iconFontSize = 100 + "%";
   constructor(props) {
     super(props);
     this.state = {
-      mapVisible: false
+      mapVisible: false,
     };
   }
   componentDidMount() {
-    console.log("componentDidMount");
     fetch("https://corona.lmao.ninja/v2/historical")
-      .then(response => {
-        response.json().then(data => {
-          console.log("data", data);
+      .then((response) => {
+        response.json().then((data) => {
           this.setState({
-            historicalData: data
+            historicalData: data,
           });
         });
       })
-      .catch(error => {
+      .catch((error) => {
         // If there is any error you will catch them here
-        console.log("error", error);
       });
 
     fetch("https://corona.lmao.ninja/countries/morocco")
-      .then(response => {
-        response.json().then(data => {
+      .then((response) => {
+        response.json().then((data) => {
           this.setState({
-            moroccanData: data
+            moroccanData: data,
           });
         });
       })
-      .catch(error => {
+      .catch((error) => {
         // If there is any error you will catch them here
-        console.log("error", error);
       });
-      
   }
+
+  
 
   render() {
     const { context } = this.props;
@@ -98,11 +98,10 @@ class Covid19Container extends Component {
     );
   }
   /**Use the strategy pattern */
-  buildPageByContext = context => {
-    console.log("context", context);
+  buildPageByContext = (context) => {
     switch (context) {
       case "page1":
-      return this.buildPage1();
+        return this.buildPage1();
       case "page2":
         return this.buildPage2();
       case "page3":
@@ -112,21 +111,21 @@ class Covid19Container extends Component {
     }
   };
 
-  isPage1 = context => {
+  isPage1 = (context) => {
     if (context == "page1") {
       return true;
     }
     return false;
   };
 
-  isPage2 = context => {
+  isPage2 = (context) => {
     if (context == "page2") {
       return true;
     }
     return false;
   };
 
-  isPage3 = context => {
+  isPage3 = (context) => {
     if (context == "page3") {
       return true;
     }
@@ -137,77 +136,49 @@ class Covid19Container extends Component {
     if (!this.state.moroccanData) {
       return <div />;
     }
-    const { active,todayCases, deaths,todayDeaths, recovered } = this.state.moroccanData;
+    const {
+      active,
+      todayCases,
+      deaths,
+      todayDeaths,
+      recovered,
+      cases,
+    } = this.state.moroccanData;
     return (
       <div className="container-fluid" style={{ marginTop: 2 + "vh" }}>
         <div id="stat-ma-counter">
           <h3>فيروس كورونا عبر جهات المملكة</h3>
           <div className="row" style={{ marginTop: "50px" }}>
-          <div className='col'>
-          <div id="mapMorocco">
-              <CoronaMaContainer
-                visible={true}
-                data={morrocancities}
-              ></CoronaMaContainer>
+            <div className="col">
+              <div id="mapMorocco">
+                <CoronaMaContainer
+                  visible={true}
+                  data={morrocancities}
+                ></CoronaMaContainer>
+              </div>
+              {this.state.historicalData && 
+              <CanvasJSChart options={uiHelper.buildMoroccoLineChartData(this.state.historicalData)} />
+            }
             </div>
-            </div>
-            <div className='col-2'>
-              <div className="col">
-                <CardComponent
-                  level="info"
-                  title="عدد الوفيات"
-                  value={
-                  <div>
-                  <CountUp end={deaths} />
-                  <span class="badge badge-secondary" style = {{marginLeft:1+'rem'}}>{todayDeaths}+ حالاة جديدة</span>
-                  </div>
-                }
-                  
-                ></CardComponent>
-              </div>
-              <div className="col">
-                <CardComponent
-                  level="good"
-                  title="حالات الشفاء"
-                  value={
-                  <CountUp end={recovered} />
-                }
-                ></CardComponent>
-              </div>
-              <div className="col">
-                <CardComponent
-                  level="danger"
-                  title="عدد الإصابات"
-                  value={
-                    <div>
-                  <CountUp end={active} /> 
-                  <span class="badge badge-secondary" style = {{marginLeft:1+'rem'}}>{todayCases}+ حالاة جديدة</span>
-                  </div>
-                }
-                ></CardComponent>
-              </div>
+            <div className="col-2">
+              <GlobalInfo
+                totalCases={cases}
+                totalconfirmed={active}
+                totalrecovered={recovered}
+                totaldeaths={deaths}
+                todaycases={todayCases}
+                todaydeaths={todayDeaths}
+              ></GlobalInfo>
             </div>
           </div>
         </div>
-        {/* <div className="row" style={{ marginTop: "50px" }}>
-          <div className="col">
-            <div id="mapMorocco">
-              <CoronaMaContainer
-                visible={true}
-                data={morrocancities}
-              ></CoronaMaContainer>
-            </div>
-          </div>
-         
-        </div> */}
       </div>
     );
   };
   buildPage2 = () => {
-    return <Home historicalData={this.state.historicalData}></Home>  
-  }
+    return <Home historicalData={this.state.historicalData}></Home>;
+  };
   buildPage3 = () => {
-
     return (
       <div className="container" style={{ marginTop: 2 + "vh" }}>
         <h1>الإحصائيات</h1>
@@ -221,7 +192,10 @@ class Covid19Container extends Component {
         </div>
         <div className="row" style={{ marginTop: 2 + "vh" }}>
           <div className="col">
-            <StackedAreaChart  data={this.getNorthAfricaData(this.state.historicalData)} theme="light2"></StackedAreaChart>
+            <StackedAreaChart
+              data={this.getNorthAfricaData(this.state.historicalData)}
+              theme="light2"
+            ></StackedAreaChart>
           </div>
         </div>
       </div>
@@ -283,37 +257,35 @@ class Covid19Container extends Component {
   };
 
   getCasePointByCountryName = (data, countryName) => {
-    if(!data){
-        return "";
+    if (!data) {
+      return "";
     }
-  var returnedData = [];
-  var countryData;
-  if (countryName) {
-    countryData = data.filter((d) => {
-      return d.country == countryName;
-    })[0];
-  } else {
-    countryData = data;
-    console.log("countryData", countryData);
-  }
-  var cases = countryData.timeline.cases;
-  var keys = Object.keys(cases);
-  var values = Object.values(cases);
+    var returnedData = [];
+    var countryData;
+    if (countryName) {
+      countryData = data.filter((d) => {
+        return d.country == countryName;
+      })[0];
+    } else {
+      countryData = data;
+    }
+    var cases = countryData.timeline.cases;
+    var keys = Object.keys(cases);
+    var values = Object.values(cases);
 
-  values.forEach((d, i) => {
-    returnedData.push({
-      y: d,
-      label: keys[i],
+    values.forEach((d, i) => {
+      returnedData.push({
+        y: d,
+        label: keys[i],
+      });
     });
-  });
-  return returnedData;
-};
+    return returnedData;
+  };
 
   buildPage4 = () => {
     return (
       <div className="container" style={{ marginTop: 2 + "vh" }}>
-        <h1>الإرشادات</h1>
-        {/* <SimpleMap></SimpleMap> */}
+        <Infos></Infos>
       </div>
     );
   };

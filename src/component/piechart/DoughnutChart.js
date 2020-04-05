@@ -3,10 +3,6 @@ import CanvasJSReact from '../../canvas-reactjs/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
  
 class DoughnutChart extends Component {
-	shouldComponentUpdate(a){
-		console.log("shouldComponentUpdate",a)
-		return true;
-	}
 	render() {
 		if (!this.props.data) {
             return <div />

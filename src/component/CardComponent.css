@@ -27,7 +27,7 @@
     background-color: rgba(255,255,255,.85);
     border-bottom: 1px solid rgba(0,0,0,.05);
 
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 @media (max-width : 800px){
     .danger-h3,.warning-h3,.info-h3,.good-h3{

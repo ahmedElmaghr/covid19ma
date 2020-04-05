@@ -4,11 +4,21 @@ class CardComponent extends Component {
 
     render() {
         const { level } = this.props;
-        console.log("level", level)
         return (
-            <div className={level}>
-                <h4 className={level + '-h3'}>{this.getIconByLevel(level)}  {this.props.title}</h4>
-                <p className={level + '-p'}>{this.props.value}</p>
+            // <div className={level}>
+            //     <h4 className={level + '-h3'}>{this.getIconByLevel(level)}  {this.props.title}</h4>
+            //     <p className={level + '-p'}>{this.props.value}</p>
+            // </div>
+            <div >
+             <div className="info">نظرة عامة</div>
+             <div className="info-p">
+                 <div>
+                     <div>عدد الإصابات</div>
+                     <div></div>
+                 </div>
+                 <div>حالات الشفاء</div>
+                 <div>عدد الوفيات</div>
+             </div>
             </div>
         );
     }

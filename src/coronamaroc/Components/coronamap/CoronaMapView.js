@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import React, { Component } from "react";
 import { merge } from "topojson-client";
 import "./CoronaMapViewCss.css";
-
+import mapHelper from "./MapHelper"
 export default class CoronaMapView extends Component {
   //Constantes
 
@@ -15,7 +15,6 @@ export default class CoronaMapView extends Component {
   }
 
   componentDidMount() {
-    console.log("componentWillMount");
     const { morrocancities, jsonData } = this.props;
     let markers = d3.selectAll("#markersCases");
     if (jsonData.length != 0 && markers.empty()) {
@@ -43,8 +42,6 @@ export default class CoronaMapView extends Component {
     // let right = dashbordContainerBBox.width/2 + leftsideBBox.width + 'px'
     let left = leftsideBBox.width 
     let top = dashbordContainerBBox.height*.4 
-    let marginTop = statMaCounterBBox.height*1.2 ;
-    console.log("left top",left,top)
     return (
       <svg id="content" className="svg" viewBox={this.viewBox} 
       // style={{top:0 ,left:left,marginTop:marginTop}}
@@ -65,7 +62,6 @@ export default class CoronaMapView extends Component {
       d => d.id == 732
     );
     var toBeMerged = [morocco[0], morrocanSahara[0]];
-    console.log("toBeMerged", toBeMerged);
     //
     g.append("path")
       .datum(merge(jsonData, toBeMerged))
@@ -95,7 +91,7 @@ export default class CoronaMapView extends Component {
         return this.getCy(d);
       })
       .attr("r", d => {
-        return this.getRadius(d);
+        return mapHelper.calculateRadius(d);
       })
       .append("title")
       .text(d => {
@@ -103,13 +99,8 @@ export default class CoronaMapView extends Component {
       });
   };
 
-  getRadius = d => {
-    let rayon = d.cases / 5;
-    console.log(rayon);
-    return 0 < rayon && rayon < 1 ? 1 : rayon;
-  };
+
   getCx = d => {
-    console.log("d", d);
     if (d) {
       var lat = d.citie.coordinate.lat;
       var long = d.citie.coordinate.long;
@@ -130,8 +121,14 @@ export default class CoronaMapView extends Component {
 
   //Add zoom
   addZoom = svg => {
+    var width = 1000;
+    var height = 550;
     svg.call(
-      d3.zoom().on("zoom", () => {
+      d3.zoom()
+      .scaleExtent([1, 40])
+      .translateExtent([[0,0], [width, height]])
+      .extent([[0, 0], [width, height]])
+      .on("zoom", () => {
         this.zoomed(svg);
       })
     );
@@ -150,16 +147,6 @@ export default class CoronaMapView extends Component {
       .scale(1200)
       .translate([800 / 2, 550 / 2]);
 
-    var projection2 = d3
-      .geoOrthographic()
-      .scale(300)
-      .precision(0.1);
-    var projection3 = d3
-      .geoConicEqualArea()
-      .scale(150)
-      .center([0, 33])
-      //.translate([width / 2, height / 2])
-      .precision(0.3);
     return geoMercator;
   };
 
