@@ -1,37 +1,22 @@
 .panel-region {
-  position: absolute;
-  margin: 2rem;
-  z-index: 1;
 }
-@media (max-width : 1000px ){
+  @media (max-width : 900px ){
     .panel-region {
-      font-size: 8px;
-      /* margin: 0 0 3px 0; */
-    }
-    .list-group{
-        max-height: 250px;
-        max-width: 180px;
-        margin-bottom: 10px;
-        overflow:scroll;
-        -webkit-overflow-scrolling: touch;
+      font-size: 12px;
     }
   }
-
-  @media (max-width : 700px ){
+  @media (max-width : 730px ){
+    .panel-region {
+      font-size: 10px;
+    }
+  }
+  @media (max-width : 630px ){
     .panel-region {
       font-size: 8px;
     }
-    .list-group{
-        max-height: 200px;
-        margin-bottom: 5px;
-        overflow:scroll;
-        -webkit-overflow-scrolling: touch;
-    }
   }
-
-  @media (max-width : 680px ){
+  @media (max-width : 530px ){
     .panel-region {
-        visibility: hidden;
+      font-size: 6px;
     }
-   
   }

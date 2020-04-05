@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { merge } from "topojson-client";
 import "./CoronaMapViewCss.css";
 import mapHelper from "./MapHelper"
+import ReactTooltip from 'react-tooltip'
+
 export default class CoronaMapView extends Component {
   //Constantes
 
@@ -21,44 +23,29 @@ export default class CoronaMapView extends Component {
       //Draw svg Wrapper
       var svg = d3.selectAll("#content");
       var gGlobal = svg.append("g").attr("id", "gWrapper");
-      gGlobal.append("defs")
-     .append('pattern')
-     .attr('id', 'locked2')
-     .attr('patternUnits', 'userSpaceOnUse')
-     .attr('width', 4)
-     .attr('height', 4)
-     .append("image")
-     .attr("xlink:href", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Regions_du_Maroc.svg/888px-Regions_du_Maroc.svg.png")
-     .attr('width', 4)
-     .attr('height', 4);
       //Merge moroccan sahara and draw morroca
       this.drawMorocco(gGlobal);
       //draw zone desease
       this.drawZone(morrocancities);
       //add zoom
       var wrapper = d3.select("#content");
-      this.addZoom(wrapper);
+      // this.addZoom(wrapper);
     }
   }
 
   render() {
-    var leftside = d3.selectAll(".leftside");
-    var dashbordContainer = d3.selectAll("#dashbordContainer");
-    var statMaCounter =d3.selectAll("#stat-ma-counter");
-    let leftsideBBox = leftside.node().getBoundingClientRect()
-    let dashbordContainerBBox = dashbordContainer.node().getBoundingClientRect()
-    let statMaCounterBBox = statMaCounter.node().getBoundingClientRect()
+    // var leftside = d3.selectAll(".leftside");
+    // var dashbordContainer = d3.selectAll("#dashbordContainer");
+    // var statMaCounter =d3.selectAll("#stat-ma-counter");
+    // let leftsideBBox = leftside.node().getBoundingClientRect()
+    // let dashbordContainerBBox = dashbordContainer.node().getBoundingClientRect()
+    // let statMaCounterBBox = statMaCounter.node().getBoundingClientRect()
 
-    // let right = dashbordContainerBBox.width/2 + leftsideBBox.width + 'px'
-    let left = leftsideBBox.width 
-    let top = dashbordContainerBBox.height*.4 
+    // // let right = dashbordContainerBBox.width/2 + leftsideBBox.width + 'px'
+    // let left = leftsideBBox.width 
+    // let top = dashbordContainerBBox.height*.4 
     return (
       <svg id="content" className="svg" viewBox={this.viewBox} >
-        {/* <defs>
-          <pattern id="imgMa" patternUnits="userSpaceOnUse" width="100" height="100">
-            <image xlinkHref="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Regions_du_Maroc.svg/888px-Regions_du_Maroc.svg.png" x="0" y="0" width="100" height="100" />
-          </pattern>
-        </defs> */}
       </svg>
     );
   }
@@ -107,13 +94,17 @@ export default class CoronaMapView extends Component {
       .attr("r", d => {
         return mapHelper.calculateRadius(d);
       })
+      .attr("data-tip","hello world")
+      .on("click",(d)=>{ return ReactTooltip.hide(this.fooRef)})
       .append("title")
       .text(d => {
         return `${d.citie.name} : ${d.cases} حالة`;
       });
   };
 
-
+  circleMouseclick = (d)=>{
+    console.log("d",d);
+  }
   getCx = d => {
     if (d) {
       var lat = d.citie.coordinate.lat;

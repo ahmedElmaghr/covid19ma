@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import "./Covid19Container.css";
+import CountUp from "react-countup";
+import CanvasJSReact from '../canvas-reactjs/canvasjs.react';
 import GlobalInfo from "../component/globalinfo/GlobalInfo";
 import LineChart from "../component/linechart/Line Chart";
-import DoughnutChart from "../component/piechart/DoughnutChart";
+import LinkButton from "../component/linkbutton/LinkButton";
 import CoronaMaContainer from "../coronamaroc/main/container/CoronaMaContainer";
 import morrocancities from "../morrocan-data.json";
-import StackedAreaChart from "./../component/stackedArea/StackedAreaChart";
-import Home from "./../view/home/Home";
-import CanvasJSReact from '../canvas-reactjs/canvasjs.react';
-import uiHelper from './../coronamaroc/Utils/UIHelper'
 import Infos from "../view/info/Infos";
-import LinkButton from "../component/linkbutton/LinkButton";
+import StackedAreaChart from "./../component/stackedArea/StackedAreaChart";
+import uiHelper from './../coronamaroc/Utils/UIHelper';
+import Home from "./../view/home/Home";
+import ReactTooltip from 'react-tooltip'
+import "./Covid19Container.css";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Covid19Container extends Component {
   iconFontSize = 100 + "%";
@@ -145,6 +145,9 @@ class Covid19Container extends Component {
                   data={morrocancities}
                 ></CoronaMaContainer>
               </div>
+              {this.state.historicalData && 
+              <CanvasJSChart options={uiHelper.buildMoroccoLineChartData(this.state.historicalData)} />
+            }
             </div>
 
             <div className="col-4">
@@ -156,14 +159,20 @@ class Covid19Container extends Component {
                 todaycases={todayCases}
                 todaydeaths={todayDeaths}
               ></GlobalInfo>
-            {/* <CanvasJSChart options = {uiHelper.buildMoroccoLineChartData(this.state.historicalData)} ></CanvasJSChart> */}
+               <div id="panelRegion" className="panel-region">
+            <ul class="list-group">
+              {morrocancities.map((value, index) => {
+              return (
+                <li class="list-group-item d-flex justify-content-between align-items-center" style={{height:1+'rem'}} >
+                  {value.citie.name}
+                  <span class="badge badge-primary badge-pill"><CountUp end={value.cases} /></span>
+                </li>
+              );
+              })}
+            </ul>
+          </div>
             </div>
           </div>
-          <div className="row" >
-          {this.state.historicalData && 
-              <CanvasJSChart options={uiHelper.buildMoroccoLineChartData(this.state.historicalData)} />
-            }
-            </div>
         </div>
       </div>
     );
