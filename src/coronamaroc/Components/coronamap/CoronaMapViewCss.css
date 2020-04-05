@@ -10,6 +10,7 @@ html, body { margin:0; padding:0; overflow:hidden }
 .morocco{
   cursor: pointer;
   fill: ghostwhite;
+  /* background-image: url('https://homepages.cae.wisc.edu/~ece533/images/cat.png') */
 }
 .marker-red{
   fill: rgba(216, 8, 8, 0.5);

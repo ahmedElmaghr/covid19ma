@@ -21,6 +21,16 @@ export default class CoronaMapView extends Component {
       //Draw svg Wrapper
       var svg = d3.selectAll("#content");
       var gGlobal = svg.append("g").attr("id", "gWrapper");
+      gGlobal.append("defs")
+     .append('pattern')
+     .attr('id', 'locked2')
+     .attr('patternUnits', 'userSpaceOnUse')
+     .attr('width', 4)
+     .attr('height', 4)
+     .append("image")
+     .attr("xlink:href", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Regions_du_Maroc.svg/888px-Regions_du_Maroc.svg.png")
+     .attr('width', 4)
+     .attr('height', 4);
       //Merge moroccan sahara and draw morroca
       this.drawMorocco(gGlobal);
       //draw zone desease
@@ -43,9 +53,12 @@ export default class CoronaMapView extends Component {
     let left = leftsideBBox.width 
     let top = dashbordContainerBBox.height*.4 
     return (
-      <svg id="content" className="svg" viewBox={this.viewBox} 
-      // style={{top:0 ,left:left,marginTop:marginTop}}
-      >
+      <svg id="content" className="svg" viewBox={this.viewBox} >
+        {/* <defs>
+          <pattern id="imgMa" patternUnits="userSpaceOnUse" width="100" height="100">
+            <image xlinkHref="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Regions_du_Maroc.svg/888px-Regions_du_Maroc.svg.png" x="0" y="0" width="100" height="100" />
+          </pattern>
+        </defs> */}
       </svg>
     );
   }
@@ -67,6 +80,7 @@ export default class CoronaMapView extends Component {
       .datum(merge(jsonData, toBeMerged))
       .attr("class", "morocco")
       .attr("d", d => this.calculatePath(d))
+      .attr("fill","url(#imgMa)")
       .on("click", d => {
         this.props.clickOnCountry();
       });

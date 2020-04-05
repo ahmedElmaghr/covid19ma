@@ -33,9 +33,7 @@ class GlobalInfo extends Component {
             <h2 className="legend">
                 <div class="total">
                     {totalconfirmed}
-                    <span class="badge badge-secondary" style={{ marginLeft: 1 + "rem" }}                    >
-                        <CountUp end={todaycases}/>+
-                    </span>
+                    <span>(+{todaycases})</span>
                 </div>
                 <div class="description">عدد المرضى</div>
                 <div class="color" style={{background:'rgb(244, 195, 99)'}}></div>
@@ -50,9 +48,7 @@ class GlobalInfo extends Component {
             <h2 className="legend">
                 <div class="total">
                     {totaldeaths}
-                    <span class="badge badge-secondary" style={{ marginLeft: 1 + "rem" }}                    >
-                        <CountUp end={todaydeaths}/>+
-                    </span>    
+                    <span>(+{todaydeaths})</span>
                 </div>
                 <div class="description">الوفيات</div>
                 <div class="color" style={{background:'rgb(118, 118, 118)'}}></div>

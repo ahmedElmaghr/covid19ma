@@ -93,7 +93,7 @@ const buildMoroccoLineChartData = (data) => {
             "Morocco"),
         },
         {
-          type: "column",
+          type: "line",
           showInLegend: true,
           name: "الإصابات",
           color:"red",

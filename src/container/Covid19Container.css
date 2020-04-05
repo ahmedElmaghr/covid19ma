@@ -73,3 +73,7 @@
     font-size: 12px !important;
   }
 }
+.clicked{
+  background-color: whitesmoke !important;
+  color: darkslategray !important;
+}

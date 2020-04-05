@@ -20,9 +20,9 @@
     line-height: 40px;
 }
 .bar{
-    margin-top: 12px;
-    height: 8px;
     display: flex;
+    margin-top: 8px;
+    height: 4px;
 }
  .slice {
     border-radius: 6px;
@@ -61,11 +61,6 @@
         font-weight: bold;
         line-height: 30px;
     }
-    .bar {
-        margin-top: 8px;
-        height: 4px;
-        display: flex;
-    }
     .legend{
         font-size: 10px;
         line-height: 0px;
@@ -82,11 +77,6 @@
         color: #DE3700;
         font-weight: bold;
         line-height: 25px;
-    }
-    .bar {
-        margin-top: 8px;
-        height: 4px;
-        display: flex;
     }
     .legend{
         font-size: 8px;
