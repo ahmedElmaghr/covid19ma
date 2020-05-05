@@ -12,9 +12,11 @@ ReactDOM.render(
     <Router history={hist}>
         <Switch>
             <Route exact path={process.env.PUBLIC_URL+"/"} component={() => {
+                console.log("redirect to" ,process.env.PUBLIC_URL+"/")
                 return <Covid19Container context={"page1"}></Covid19Container>
             }} />
             <Route exact path={process.env.PUBLIC_URL+"/home"} component={() => {
+                console.log("redirect to" , process.env.PUBLIC_URL+"/home")
                 return <Covid19Container context={"page1"}></Covid19Container>
             }} />
             <Route exact path={process.env.PUBLIC_URL+"/page2"} component={() => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '../../canvas-reactjs/canvasjs.react';
+import UIHelper from '../../coronamaroc/Utils/UIHelper';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
  
 class LineChart extends Component {
@@ -24,34 +25,41 @@ class LineChart extends Component {
 				prefix: "",
 				interval: 7
 			},
-			data: [{
+			data: [
+			{
 				type: "spline",
 				showInLegend: true,
-				name:"morocco",
+				name:"MOROCCO",
+				color:"red",
 				toolTipContent: "Day {label}: {y}",
-				dataPoints: this.getCasePointByCountryName(data,"Morocco")
+				dataPoints: UIHelper.getActiveCasePointByCountryName(data,"Morocco")
 				
 			},
 			{
 				type: "spline",
 				showInLegend: true,
-				name:"algeria",
+				name:"ALGERIA",
+				color:"green",
 				toolTipContent: "Day {label}: {y}",
-				dataPoints: this.getCasePointByCountryName(data,"Algeria")
+				dataPoints: UIHelper.getActiveCasePointByCountryName(data,"Algeria")
+
 			},
 			{
 				type: "spline",
 				showInLegend: true,
-				name:"tunisia",
+				name:"TUNISIA",
 				toolTipContent: "Day {label}: {y}",
-				dataPoints: this.getCasePointByCountryName(data,"Tunisia")
+				dataPoints: UIHelper.getActiveCasePointByCountryName(data,"Tunisia")
+
 			},
 			{
 				type: "spline",
 				showInLegend: true,
-				name:"egypt",
+				name:"EGYPT",
+				color:"gray",
 				toolTipContent: "Day {label}: {y}",
-				dataPoints: this.getCasePointByCountryName(data,"Egypt")
+				dataPoints: UIHelper.getActiveCasePointByCountryName(data,"Egypt")
+
 			}
 
 		]
@@ -68,8 +76,6 @@ class LineChart extends Component {
 	}
 
 	getCasePointByCountryName = (data,countryName)=>{
-		console.log(data)
-		console.log(countryName)
 		var returnedData = [];
 		var countryData = data.filter((d)=>{
 			return d.country == countryName

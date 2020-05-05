@@ -10,7 +10,6 @@ import Infos from "../view/info/Infos";
 import StackedAreaChart from "./../component/stackedArea/StackedAreaChart";
 import uiHelper from './../coronamaroc/Utils/UIHelper';
 import Home from "./../view/home/Home";
-import ReactTooltip from 'react-tooltip'
 import "./Covid19Container.css";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Covid19Container extends Component {
@@ -19,7 +18,7 @@ class Covid19Container extends Component {
     super(props);
     this.state = {
       mapVisible: false,
-      homeClicked:false,
+      homeClicked:true,
       page2Clicked:false,
       page3Clicked:false,
       page4Clicked:false,
@@ -38,7 +37,7 @@ class Covid19Container extends Component {
         // If there is any error you will catch them here
       });
 
-    fetch("https://corona.lmao.ninja/countries/morocco")
+    fetch("https://corona.lmao.ninja/v2/countries/morocco")
       .then((response) => {
         response.json().then((data) => {
           this.setState({
@@ -51,8 +50,6 @@ class Covid19Container extends Component {
       });
   }
 
-  
-
   render() {
     const { context } = this.props;
     var screenHeight = window.screen.height;
@@ -61,9 +58,9 @@ class Covid19Container extends Component {
         <div className="leftside">
           <div className="group-btn">
               <LinkButton onClick = {()=>{this.clickHome()}} clicked = {this.state.homeClicked} redirection={"/home"} className="fa fa-home " ></LinkButton>
-              <LinkButton redirection={"/page3"} clicked = {this.state.page3Clicked} className="fa fa-line-chart"></LinkButton>
-              <LinkButton redirection={"/page2"} clicked = {this.state.page2Clicked} className="fa fa-globe"></LinkButton>
-              <LinkButton redirection={"/page4"} clicked = {this.state.page4Clicked} className="fa fa-info"></LinkButton>
+              <LinkButton onClick = {()=>{this.clickPage3()}} clicked = {this.state.page3Clicked} redirection={"/page3"} clicked = {this.state.page3Clicked} className="fa fa-line-chart"></LinkButton>
+              <LinkButton onClick = {()=>{this.clickPage2()}} clicked = {this.state.page2Clicked} redirection={"/page2"} clicked = {this.state.page2Clicked} className="fa fa-globe"></LinkButton>
+              <LinkButton onClick = {()=>{this.clickPage4()}} clicked = {this.state.page4Clicked} redirection={"/page4"} clicked = {this.state.page4Clicked} className="fa fa-info"></LinkButton>
           </div>
         </div>
         <div id="dashbordContainer" class="dash-container">
@@ -84,6 +81,33 @@ class Covid19Container extends Component {
       page2Clicked:false,
       page3Clicked:false,
       page4Clicked:false,
+    })
+  }
+
+  clickPage2 = ()=>{
+    this.setState({
+      homeClicked:false,
+      page2Clicked:true,
+      page3Clicked:false,
+      page4Clicked:false,
+    })
+  }
+
+  clickPage3 = ()=>{
+    this.setState({
+      homeClicked:false,
+      page2Clicked:false,
+      page3Clicked:true,
+      page4Clicked:false,
+    })
+  }
+
+  clickPage4 = ()=>{
+    this.setState({
+      homeClicked:false,
+      page2Clicked:false,
+      page3Clicked:false,
+      page4Clicked:true,
     })
   }
   /**Use the strategy pattern */
@@ -122,7 +146,7 @@ class Covid19Container extends Component {
   };
 
   buildPage1 = () => {
-    if (!this.state.moroccanData) {
+    if (!this.state.moroccanData || !this.state.historicalData) {
       return <div />;
     }
     const {
@@ -133,6 +157,7 @@ class Covid19Container extends Component {
       recovered,
       cases,
     } = this.state.moroccanData;
+    var todaysRecovered = this.getTodayRecovered();
     return (
       <div className="container-fluid" style={{ marginTop: 2 + "vh" }}>
         <div id="stat-ma-counter">
@@ -146,7 +171,11 @@ class Covid19Container extends Component {
                 ></CoronaMaContainer>
               </div>
               {this.state.historicalData && 
+              <div>
+              <CanvasJSChart options={uiHelper.buildMoroccoActiveCasesChartData(this.state.historicalData)} />
+              <h1>----------------------------</h1>
               <CanvasJSChart options={uiHelper.buildMoroccoLineChartData(this.state.historicalData)} />
+              </div>
             }
             </div>
 
@@ -155,6 +184,7 @@ class Covid19Container extends Component {
                 totalCases={cases}
                 totalconfirmed={active}
                 totalrecovered={recovered}
+                todaysRecovered = {todaysRecovered}
                 totaldeaths={deaths}
                 todaycases={todayCases}
                 todaydeaths={todayDeaths}
@@ -163,7 +193,8 @@ class Covid19Container extends Component {
             <ul class="list-group">
               {morrocancities.map((value, index) => {
               return (
-                <li class="list-group-item d-flex justify-content-between align-items-center" style={{height:1+'rem'}} >
+                <li class="list-group-item d-flex justify-content-between align-items-center" 
+                style={{height:1+'rem',paddingLeft:0,paddingRight:0}} >
                   {value.citie.name}
                   <span class="badge badge-primary badge-pill"><CountUp end={value.cases} /></span>
                 </li>
@@ -200,6 +231,22 @@ class Covid19Container extends Component {
       </div>
     );
   };
+  getTodayRecovered = ()=>{
+    let todayRecovered = this.state.moroccanData.recovered;
+    let morrocanHistData = this.state.historicalData.filter((e) => {
+      return e.country == "Morocco";
+    })[0];
+    let morrocanCases = morrocanHistData.timeline.recovered;
+    var date1 = new Date();
+    date1.setDate(date1.getDate() - 1);
+    let lastDayDate = date1.getUTCMonth() + 1 +"/"+ date1.getUTCDate()+"/20"
+    let lastDayData =morrocanCases[lastDayDate];
+    if(lastDayData){
+      return todayRecovered - lastDayData;
+    }else{
+      return 0;
+    }
+  }
 
   getNorthAfricaData = (data) => {
     if (!data) {
@@ -237,6 +284,7 @@ class Covid19Container extends Component {
         showInLegend: true,
         xValueFormatString: "YYYY",
         dataPoints: this.getCasePointByCountryName(data, "Morocco"),
+        
       },
       {
         type: "stackedArea",

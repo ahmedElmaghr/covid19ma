@@ -9,26 +9,13 @@ class GlobalInfo extends Component {
         totalrecovered,
         totaldeaths,
         todaycases,
+        todaysRecovered,
         todaydeaths
       }=this.props;
     return (
       <div className="infotitle">
         <h2 className="title">العدد الإجمالي للمصابين</h2>
         <div className="confirmed">{totalCases}</div>
-        <div class="bar">
-        <div
-            class="slice"
-            style={{background: 'rgb(118, 118, 118)', width: 8+'px'}}
-          ></div>
-          <div
-            class="slice"
-            style={{background: 'rgb(96, 187, 105)', width: 70.6039+'px', marginRight: 4+'px'}}
-          ></div>
-           <div
-            class="slice"
-            style={{background: 'rgb(244, 195, 99)', width: 157.396+'px', marginRight: 4+'px'}}
-          ></div>
-        </div>
         <div className="infoTileData">
             <h2 className="legend">
                 <div class="total">
@@ -41,6 +28,7 @@ class GlobalInfo extends Component {
             <h2 className="legend">
                 <div class="total">
                     {totalrecovered}
+                    <span>(+{todaysRecovered})</span>
                 </div>
                 <div class="description">حالات الشفاء</div>
                 <div class="color" style={{background:'rgb(96, 187, 105)'}}></div>
