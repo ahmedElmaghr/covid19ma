@@ -1,3 +1,4 @@
+import Chart from "chart_geo";
 import React, { Component } from "react";
 import CountUp from "react-countup";
 import CanvasJSReact from '../canvas-reactjs/canvasjs.react';
@@ -25,7 +26,7 @@ class Covid19Container extends Component {
     };
   }
   componentDidMount() {
-    fetch("https://corona.lmao.ninja/v2/historical")
+    fetch("https://disease.sh/v2/historical")
       .then((response) => {
         response.json().then((data) => {
           this.setState({
@@ -37,7 +38,7 @@ class Covid19Container extends Component {
         // If there is any error you will catch them here
       });
 
-    fetch("https://corona.lmao.ninja/v2/countries/morocco")
+    fetch("https://disease.sh/v2/countries/morocco")
       .then((response) => {
         response.json().then((data) => {
           this.setState({
@@ -144,8 +145,10 @@ class Covid19Container extends Component {
     }
     return false;
   };
-
+  
   buildPage1 = () => {
+    let landColors = { clickable: 'black', hover: 'grey', clicked: "red", clickhover: "darkred" }
+    let markerStyle = {fill:"#86A3C3",stroke:"blue",size:"5px"};
     if (!this.state.moroccanData || !this.state.historicalData) {
       return <div />;
     }
@@ -163,12 +166,21 @@ class Covid19Container extends Component {
         <div id="stat-ma-counter">
           <h3>فيروس كورونا عبر جهات المملكة</h3>
           <div className="row" style={{ marginTop: "50px" }}>
-            <div className="col">
+            <div className="col" style={{paddingBottom:'10rem'}}>
               <div id="mapMorocco">
-                <CoronaMaContainer
+                {/* <CoronaMaContainer
                   visible={true}
                   data={morrocancities}
-                ></CoronaMaContainer>
+                ></CoronaMaContainer> */}
+                <Chart
+                countryClickColors={landColors}
+                markerStyle={markerStyle}
+                markerIconUnicode={'\uf111'}
+                seaColor = {'#C2DFFF'}
+                onCountryClick={(d)=> console.log("country clicked",d)}
+                onMarkerHover={(d)=>console.log(d)}
+                initCenter={() => console.log("center map")}
+                />
               </div>
               {this.state.historicalData && 
               <div>
