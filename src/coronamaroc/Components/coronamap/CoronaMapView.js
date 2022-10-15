@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { merge } from "topojson-client";
 import "./CoronaMapViewCss.css";
 import mapHelper from "./MapHelper"
-import ReactTooltip from 'react-tooltip'
+// import ReactTooltip from 'react-tooltip'
 
 export default class CoronaMapView extends Component {
   //Constantes
@@ -94,8 +94,8 @@ export default class CoronaMapView extends Component {
       .attr("r", d => {
         return mapHelper.calculateRadius(d);
       })
-      .attr("data-tip","hello world")
-      .on("click",(d)=>{ return ReactTooltip.hide(this.fooRef)})
+      // .attr("data-tip","hello world")
+      // .on("click",(d)=>{ return ReactTooltip.hide(this.fooRef)})
       .append("title")
       .text(d => {
         return `${d.citie.name} : ${d.cases} حالة`;

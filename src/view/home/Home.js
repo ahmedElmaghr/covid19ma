@@ -5,7 +5,7 @@ class Home extends Component {
     super(props);
   }
   componentDidMount() {
-    fetch("https://corona.lmao.ninja/v2/historical/france")
+    fetch("https://disease.sh/v2/historical/france")
       .then((response) => {
         response.json().then((data) => {
           this.setState({
@@ -18,7 +18,7 @@ class Home extends Component {
         console.log("error", error);
       });
 
-    fetch("https://corona.lmao.ninja/v2/historical/spain")
+    fetch("https://disease.sh/v2/historical/spain")
       .then((response) => {
         response.json().then((data) => {
           this.setState({
@@ -31,7 +31,7 @@ class Home extends Component {
         console.log("error", error);
       });
 
-    fetch("https://corona.lmao.ninja/v2/historical/italy")
+    fetch("https://disease.sh/v2/historical/italy")
       .then((response) => {
         response.json().then((data) => {
           this.setState({
@@ -43,7 +43,7 @@ class Home extends Component {
         // If there is any error you will catch them here
         console.log("error", error);
       });
-    fetch("https://corona.lmao.ninja/v2/historical/china")
+    fetch("https://disease.sh/v2/historical/china")
       .then((response) => {
         response.json().then((data) => {
           this.setState({
@@ -55,7 +55,7 @@ class Home extends Component {
         // If there is any error you will catch them here
         console.log("error", error);
       });
-      fetch("https://corona.lmao.ninja/v2/historical/usa")
+      fetch("https://disease.sh/v2/historical/usa")
       .then((response) => {
         response.json().then((data) => {
           this.setState({

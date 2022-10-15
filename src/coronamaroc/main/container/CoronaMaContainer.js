@@ -10,11 +10,6 @@ class CoronaMaContainer extends Component {
       worldData: [],
       jsonData: [],
     };
-    const mappleConfig = {
-      mappleType: 'contra',
-      shadow: true,
-      borderRadius: 6,
-      tipPosition: 14}
   }
 
 
